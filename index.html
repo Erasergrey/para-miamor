@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Valentina ❤️</title>
+    <style>
+        /* --- Estilos Base (Tema Oscuro GitHub) --- */
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+            overflow: hidden; /* Evita scrollbars por los corazones */
+        }
+
+        h1 { color: #f78166; font-size: 1.8rem; margin-bottom: 5px; }
+        
+        #counter {
+            font-size: 1.3rem;
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            background: #161b22;
+            z-index: 10; /* Asegura que esté sobre los corazones */
+            position: relative;
+        }
+
+        .status-text {
+            font-size: 0.8rem;
+            color: #8b949e;
+            margin-top: 0;
+            z-index: 10;
+            position: relative;
+        }
+
+        /* --- Estilos para el Pop-up (Modal) --- */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 100; /* Encima de todo */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8); /* Fondo oscuro semitransparente */
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #161b22;
+            padding: 30px;
+            border: 2px solid #f78166;
+            border-radius: 10px;
+            max-width: 80%;
+            max-height: 80%;
+            overflow-y: auto; /* Scroll interno si el poema es largo */
+            position: relative;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(247, 129, 102, 0.4);
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            color: #8b949e;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover { color: #f78166; }
+
+        .poem-text {
+            color: #c9d1d9;
+            line-height: 1.6;
+            font-style: italic;
+            white-space: pre-line; /* Respeta los saltos de línea del código */
+        }
+
+        /* Botón para abrir el poema */
+        .open-btn {
+            background-color: #238636; /* Color verde botón GitHub */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 20px;
+            z-index: 10;
+            position: relative;
+            transition: background-color 0.2s;
+        }
+        .open-btn:hover { background-color: #2ea043; }
+
+        /* --- Estilos para los Corazones que Caen (Lluvia) --- */
+        .heart-rain {
+            position: fixed;
+            top: -10px;
+            color: #f85149; /* Color rojo corazón */
+            font-size: 1.2rem;
+            user-select: none;
+            pointer-events: none; /* No interfieren con los clics */
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(105vh); } /* Caen hasta salir de pantalla */
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Valentina ❤️</h1>
+    <p class="status-text">Compilando momentos desde hace:</p>
+    
+    <div id="counter">Cargando tiempo...</div>
+
+    <p class="status-text">
+        status: 8 meses  <br>
+        branch: main_relationship
+    </p>
+
+    <button class="open-btn" id="openPoemBtn">Abrir Mensaje Especial</button>
+
+    <div id="poemModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" id="closePoemBtn">&times;</span>
+            <h1>Para mi Valentina</h1>
+            <p class="poem-text">
+                No es coincidencia, es arquitectura,
+                haber cruzado contigo el camino,
+                un año y tres meses de esta aventura
+                donde el azar se volvió destino.
+
+                Valentina, mi puerto, mi red y mi guía,
+                nuestros gustos encajan en perfecta unión,
+                eres la paz que mi mente requería
+                y el ritmo constante de mi corazón.
+
+                Que sigan los meses, las risas, la vida,
+                sin errores de lógica, solo con fe,
+                que esta historia de amor, por siempre encendida,
+                sea el único script que siempre ejecutaré.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // === 1. CONFIGURACIÓN DE FECHA ===
+        // (Año, Mes-1, Día) Ejemplo: 17 Diciembre 2024 -> (2024, 11, 17)
+        const startDate = new Date(2025, 8, 17); 
+
+        // === 2. LÓGICA DEL CONTADOR ===
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('counter').innerHTML = 
+                ${days}d ${hours}h ${mins}m ${secs}s;
+        }
+        setInterval(updateCounter, 1000);
+        updateCounter();
+
+        // === 3. LÓGICA DEL POP-UP (MODAL) ===
+        const modal = document.getElementById("poemModal");
+        const btn = document.getElementById("openPoemBtn");
+        const span = document.getElementById("closePoemBtn");
+
+        btn.onclick = function() { modal.style.display = "flex"; } // Abrir
+        span.onclick = function() { modal.style.display = "none"; } // Cerrar con la X
+
+        // Cerrar si hace clic fuera del cuadro del poema
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // === 4. LÓGICA DE LA LLUVIA DE CORAZONES ===
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-rain');
+            heart.innerText = '❤';
+            
+            // Posición horizontal aleatoria
+            heart.style.left = Math.random() * 100 + 'vw';
+            
+            // Duración de caída aleatoria (entre 3s y 6s) para efecto natural
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            
+            // Tamaño aleatorio sutil
+            heart.style.fontSize = Math.random() * 0.5 + 1 + 'rem';
+
+            document.body.appendChild(heart);
+
+            // Eliminar el corazón después de que caiga para no saturar la memoria
+            setTimeout(() => {
+                heart.remove();
+            }, 6000); 
+        }
+
+        // Crear un corazón nuevo cada 300 milisegundos
+        setInterval(createHeart, 300);
+
+    </script>
+</body>
+</html>
